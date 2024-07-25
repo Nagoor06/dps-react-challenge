@@ -3,6 +3,7 @@ import axios from 'axios';
 import UserTable from './components/UserTable';
 import FilterControls from './components/FilterControls';
 import PieChart from './components/PieChart';
+import CityMap from './components/CityMap';
 import dpsLogo from './assets/DPS.svg';
 import './App.css';
 
@@ -13,7 +14,30 @@ interface User {
   birthDate: string;
   city: string;
   highlight?: boolean;
+  lat: number;
+  lng: number;
 }
+
+const cityCoordinates: { [key: string]: { lat: number, lng: number } } = {
+  "Phoenix": { lat: 33.4484, lng: -112.0740 },
+  "Houston": { lat: 29.7604, lng: -95.3698 },
+  "Washington": { lat: 38.9072, lng: -77.0369 },
+  "Seattle": { lat: 47.6062, lng: -122.3321 },
+  "Jacksonville": { lat: 30.3322, lng: -81.6557 },
+  "Fort Worth": { lat: 32.7555, lng: -97.3308 },
+  "Indianapolis": { lat: 39.7684, lng: -86.1581 },
+  "San Antonio": { lat: 29.4241, lng: -98.4936 },
+  "New York": { lat: 40.7128, lng: -74.0060 },
+  "Denver": { lat: 39.7392, lng: -104.9903 },
+  "Columbus": { lat: 39.9612, lng: -82.9988 },
+  "San Jose": { lat: 37.3382, lng: -121.8863 },
+  "San Diego": { lat: 32.7157, lng: -117.1611 },
+  "Chicago": { lat: 41.8781, lng: -87.6298 },
+  "Philadelphia": { lat: 39.9526, lng: -75.1652 },
+  "Dallas": { lat: 32.7767, lng: -96.7970 },
+  "Los Angeles": { lat: 34.0522, lng: -118.2437 },
+  "San Francisco": { lat: 37.7749, lng: -122.4194 },
+};
 
 const App: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -28,12 +52,21 @@ const App: React.FC = () => {
   useEffect(() => {
     axios.get('https://dummyjson.com/users')
       .then(response => {
-        const usersWithCity = response.data.users.map((user: any) => ({
-          ...user,
-          city: user.address.city,
-        }));
-        setUsers(usersWithCity);
-        setFilteredUsers(usersWithCity);
+        const usersWithCoordinates = response.data.users.map((user: any) => {
+          const city = user.address.city;
+          const coordinates = cityCoordinates[city];
+          return {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            birthDate: user.birthDate,
+            city: city,
+            lat: coordinates ? coordinates.lat : 0,
+            lng: coordinates ? coordinates.lng : 0,
+          };
+        });
+        setUsers(usersWithCoordinates);
+        setFilteredUsers(usersWithCoordinates);
       })
       .catch(error => console.error('Error fetching users:', error));
   }, []);
@@ -86,7 +119,6 @@ const App: React.FC = () => {
     setCurrentPage(1);
   }, [debouncedNameFilter, cityFilter, highlightOldest, users]);
 
-  // Pagination logic
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -132,6 +164,10 @@ const App: React.FC = () => {
             <div className="pie-chart-heading">User Distribution by City</div>
             <PieChart users={filteredUsers} />
           </div>
+        </div>
+        <div className="map-container mt-6">
+          <h2 className="text-xl font-semibold mb-4">City Locations</h2>
+          <CityMap users={filteredUsers} />
         </div>
       </div>
     </>
