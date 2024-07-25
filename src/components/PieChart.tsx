@@ -28,15 +28,16 @@ const PieChart: React.FC<PieChartProps> = ({ users }) => {
   };
 
   return (
-    <div className="w-full max-w-md">
-      <Chart
-        chartType="PieChart"
-        data={data}
-        options={options}
-        width={'500px'}
-        height={'500px'}
-      />
-    </div>
+    <div className="w-full max-w-md shadow-md border-black">
+  <Chart
+    chartType="PieChart"
+    data={data}
+    options={options}
+    width={'500px'}
+    height={'500px'}
+  />
+</div>
+
   );
 };
 

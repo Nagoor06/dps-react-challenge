@@ -30,7 +30,8 @@ const FilterControls: React.FC<FilterControlsProps> = ({
         onChange={onCityChange}
         className="filter-select"
       >
-        <option value="">All Cities</option>
+        <option value="" style={{ fontWeight: 'bolder' }}>All Cities</option>
+
         {cities.map(city => (
           <option key={city} value={city}>{city}</option>
         ))}

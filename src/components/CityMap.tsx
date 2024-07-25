@@ -45,7 +45,7 @@ const CityMap: React.FC<CityMapProps> = ({ users }) => {
   return (
     <LoadScript googleMapsApiKey="AIzaSyAaHrVutOy8uTHaBlweL5TmWxyT0bmLHVI">
       <GoogleMap
-        mapContainerStyle={{ width: '100%', height: '400px' }}
+        mapContainerStyle={{ width: '100%', height: '400px', border:'1px solid black', borderRadius:'0.5rem' }}
         center={center}
         zoom={4}
         onClick={handleMapClick}

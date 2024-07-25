@@ -166,7 +166,7 @@ const App: React.FC = () => {
           </div>
         </div>
         <div className="map-container mt-6">
-          <h2 className="text-xl font-semibold mb-4">City Locations</h2>
+          <h2 className="text-xl font-semibold mb-4">Users Location</h2>
           <CityMap users={filteredUsers} />
         </div>
       </div>
