@@ -1,5 +1,7 @@
-// src/components/FilterControls.tsx
 import React from 'react';
+import './UserTable.css'; // Import the CSS file
+
+
 
 interface FilterControlsProps {
   nameFilter: string;
@@ -21,14 +23,19 @@ const FilterControls: React.FC<FilterControlsProps> = ({
         placeholder="Filter by name"
         value={nameFilter}
         onChange={onNameChange}
+        className="filter-input"
       />
-      <select value={cityFilter} onChange={onCityChange}>
+      <select
+        value={cityFilter}
+        onChange={onCityChange}
+        className="filter-select"
+      >
         <option value="">All Cities</option>
         {cities.map(city => (
           <option key={city} value={city}>{city}</option>
         ))}
       </select>
-      <label>
+      <label className="highlight-checkbox">
         <input
           type="checkbox"
           checked={highlightOldest}

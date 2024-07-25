@@ -1,5 +1,5 @@
-// src/components/UserTable.tsx
 import React from 'react';
+import '../App.css'; // Import the CSS file
 
 interface UserTableProps {
   users: Array<{
@@ -17,19 +17,19 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
     <table className="user-table">
       <thead>
         <tr>
-          <th>Id</th>
-          <th>Full Name</th>
-          <th>City</th>
-          <th>Birthday</th>
+          <th className="user-table-header">Id</th>
+          <th className="user-table-header">Full Name</th>
+          <th className="user-table-header">City</th>
+          <th className="user-table-header">Birthday</th>
         </tr>
       </thead>
       <tbody>
         {users.map(user => (
-          <tr key={user.id} className={user.highlight ? 'highlight' : ''}>
-            <td>{user.id}</td>
-            <td>{user.firstName} {user.lastName}</td>
-            <td>{user.city}</td>
-            <td>{new Date(user.birthDate).toLocaleDateString()}</td>
+          <tr key={user.id} className={`user-table-row ${user.highlight ? 'highlight-row' : ''}`}>
+            <td className="user-table-cell">{user.id}</td>
+            <td className="user-table-cell">{user.firstName} {user.lastName}</td>
+            <td className="user-table-cell">{user.city}</td>
+            <td className="user-table-cell">{new Date(user.birthDate).toLocaleDateString()}</td>
           </tr>
         ))}
       </tbody>
